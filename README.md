@@ -3,6 +3,6 @@ A simple terminal based game written in Java with no helper frameworks. The game
 
 ## Gameplay
 
-The goal of this game is to survive for as long as possible while snowflakes and sheets fall on the player. The game will get progressivly harder at time goes on, with snow falling faster towards the player
+The goal of this game is to survive for as long as possible while snowflakes and sheets fall on the player. Which will get progressivly harder at time goes on, with snow falling faster towards the player
 
-A record of how long you survived will be shown to the user when the game ends.
+The user is able to hold down the `wasd` keys in order to move left and right. A record of how long you survived will be shown to the user when the game ends as well.
