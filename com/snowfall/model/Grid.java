@@ -12,6 +12,7 @@ public class Grid {
   private int mRows;
   
   // Grid shape info
+  private String mEmptyChar = " ";
   private String mSnowflake = "*";
 
   /**
@@ -26,7 +27,7 @@ public class Grid {
     // Creates a grid system based on the given rows and columns
     for(int i = 0; i < mRows; i++) {
       mGridInfo.add(
-        new ArrayList<String>(Collections.nCopies(mColumns, null))
+        new ArrayList<String>(Collections.nCopies(mColumns, mEmptyChar))
       );
     }
     
@@ -41,6 +42,13 @@ public class Grid {
   }
   
   /**
+  * Getter that returns the number of rows the grid contains
+  */
+  public int getRows() {
+    return mRows;
+  }
+  
+  /**
   * Runs the game for one tick, cascading down the rows and deleting
   * the one closest to the ground
   * @return A list of rows, with the status of each pixel in the column
@@ -48,7 +56,7 @@ public class Grid {
   public void runGameTick() {
     // Initalize an empty ArrayList to replace the first mGridInfo element
     ArrayList<String> newList = new ArrayList<String>(
-      Collections.nCopies(mColumns, null)
+      Collections.nCopies(mColumns, mEmptyChar)
     );
     
     // Get random number to fill the grid

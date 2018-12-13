@@ -17,6 +17,22 @@ public class SnowfallRunner {
   }
   
   /**
+  * Uses a grid based system to create the objects that the user sees
+  * on the screen.
+  * It then prints out each row, one by one for the user
+  * @param grid A Grid object that constains row and columns data
+  */
+  private void displayGame(List<List<String>> grid) {
+    for (int i = 0; i < grid.size(); i++) {
+      String row = String.join("", grid.get(i));
+      System.out.printf("%s%n", row);
+    }
+    
+    
+    
+  }
+  
+  /**
   * The main menu runner for SnowfallRunner, allowing the game to be played
   */
   public void run() {
@@ -26,6 +42,7 @@ public class SnowfallRunner {
     
     List<List<String>> gridInfo = mGrid.getGridInfo();
     gridInfo.forEach(System.out::println);
+    displayGame(gridInfo);
   }
   
 }
