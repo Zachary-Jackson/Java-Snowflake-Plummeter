@@ -1,5 +1,6 @@
 package com.snowfall.model;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,11 +10,13 @@ public class Grid {
   // Grid information
   private int mColumns;
   private List<List<String>> mGridInfo = new ArrayList<List<String>>();
+  private List<String> mPlayer = new ArrayList<String>();
   private int mRows;
   
   // Grid shape info
   private String mEmptyChar = " ";
   private String mSnowflake = "*";
+  private String mPlayerChar = "X";
 
   /**
   * Grid's constructor method
@@ -31,6 +34,15 @@ public class Grid {
       );
     }
     
+    // Initializes the player at as close to the halfway mark as possible
+    int midpoint = (int) Math.floor(mColumns / 2);
+    for(int i =0; i < mColumns; i++) {
+      if (i == midpoint) {
+        mPlayer.add(mPlayerChar);
+      } else {
+        mPlayer.add(mEmptyChar);
+      } 
+    }
   }
   
   /**
@@ -42,10 +54,12 @@ public class Grid {
   }
   
   /**
-  * Getter that returns the number of rows the grid contains
+  * Method that gets and returns all of the player data in string/null format
+  * @return Returns a list columns length wide
+  * that contains the player's location
   */
-  public int getRows() {
-    return mRows;
+  public List<String> getPlayerInfo() {
+    return mPlayer;
   }
   
   /**

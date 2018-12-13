@@ -22,14 +22,24 @@ public class SnowfallRunner {
   * It then prints out each row, one by one for the user
   * @param grid A Grid object that constains row and columns data
   */
-  private void displayGame(List<List<String>> grid) {
+  private void displayGame(List<List<String>> grid, List<String> player) {
+    // Print onstacles
     for (int i = 0; i < grid.size(); i++) {
       String row = String.join("", grid.get(i));
-      System.out.printf("%s%n", row);
+      System.out.printf("%s%n", formatRow(row));
     }
-    
-    
-    
+    // Print player
+    String playerRow = String.join("", player);
+    System.out.printf("%s%n", formatRow(playerRow));
+  }
+  
+  /**
+  * Formats a row to have a | on the left and right |
+  * @param row The row to be formatted
+  * @return The formatted row
+  */
+  private String formatRow(String row) {
+    return "|" + row + "|";
   }
   
   /**
@@ -40,9 +50,11 @@ public class SnowfallRunner {
     mGrid.runGameTick();
     mGrid.runGameTick();
     
+    // Get grid and player locations
     List<List<String>> gridInfo = mGrid.getGridInfo();
-    gridInfo.forEach(System.out::println);
-    displayGame(gridInfo);
+    List<String> playerInfo = mGrid.getPlayerInfo();
+
+    displayGame(gridInfo, playerInfo);
   }
   
 }
