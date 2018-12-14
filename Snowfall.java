@@ -8,7 +8,7 @@ public class Snowfall {
   * run method in order to start the game
   */
   public static void main(String[] args) {
-    Grid grid = new Grid(4, 15);
+    Grid grid = new Grid(5, 20);
     SnowfallRunner runner = new SnowfallRunner(grid);
     
     // Start game

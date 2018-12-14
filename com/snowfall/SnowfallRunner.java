@@ -46,15 +46,44 @@ public class SnowfallRunner {
   * The main menu runner for SnowfallRunner, allowing the game to be played
   */
   public void run() {
-    mGrid.runGameTick();
-    mGrid.runGameTick();
-    mGrid.runGameTick();
-    
-    // Get grid and player locations
-    List<List<String>> gridInfo = mGrid.getGridInfo();
-    List<String> playerInfo = mGrid.getPlayerInfo();
+    while(true) {
+      mGrid.runGameTick();
+      
+      // Get grid and player locations
+      List<List<String>> gridInfo = mGrid.getGridInfo();
+      List<String> playerInfo = mGrid.getPlayerInfo();
+  
+      displayGame(gridInfo, playerInfo);
+      
+      boolean hit = mGrid.playerHit();
+      if (hit) {
+        System.out.println("Player down!");
+        stopExecution(2000);
+        break;
+      }
 
-    displayGame(gridInfo, playerInfo);
+      stopExecution(600);
+    
+      // Clears the screen on non windows
+      System.out.print("\033[H\033[2J");
+      
+    }
+  }
+  
+  /**
+  * Stops the program's execution for a specific period of time
+  * @param miliseconds The number of miliseconds to pause
+  */
+  private void stopExecution(int miliseconds) {
+    // Temporary, wait a little while to cascade the next Snowflake
+    try
+    {
+        Thread.sleep(miliseconds);
+    }
+    catch(InterruptedException ex)
+    {
+        Thread.currentThread().interrupt();
+    }
   }
   
 }

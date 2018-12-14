@@ -65,6 +65,23 @@ public class Grid {
   /**
   * Runs the game for one tick, cascading down the rows and deleting
   * the one closest to the ground
+  * @return True if the user has been hit, else false
+  */
+  public boolean playerHit() {
+    // The last row in mGridInfo is the one that hits the player
+    List<String> grid = mGridInfo.get(mGridInfo.size() - 1);
+    
+    int index = mPlayer.indexOf("X");
+    
+    if (grid.get(index) != mEmptyChar) {
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+  * Runs the game for one tick, cascading down the rows and deleting
+  * the one closest to the ground
   * @return A list of rows, with the status of each pixel in the column
   */
   public void runGameTick() {
