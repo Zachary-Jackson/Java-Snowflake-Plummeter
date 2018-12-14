@@ -17,6 +17,9 @@ public class Grid {
   private String mEmptyChar = " ";
   private String mSnowflake = "*";
   private String mPlayerChar = "X";
+  
+  // Other info
+  private int mHighScore = 0;
 
   /**
   * Grid's constructor method
@@ -54,12 +57,27 @@ public class Grid {
   }
   
   /**
+  * Method that gets the HighScore
+  * @return The HighScore
+  */
+  public int getHighScore() {
+    return mHighScore;
+  }
+  
+  /**
   * Method that gets and returns all of the player data in string/null format
   * @return Returns a list columns length wide
   * that contains the player's location
   */
   public List<String> getPlayerInfo() {
     return mPlayer;
+  }
+  
+  /**
+  * Increases the High Score by one
+  */
+  public void incrementHighScore() {
+    mHighScore += 1;
   }
   
   /**

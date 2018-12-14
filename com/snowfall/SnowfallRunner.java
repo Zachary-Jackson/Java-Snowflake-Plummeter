@@ -55,9 +55,12 @@ public class SnowfallRunner {
   
       displayGame(gridInfo, playerInfo);
       
+      mGrid.incrementHighScore();
+      
       boolean hit = mGrid.playerHit();
       if (hit) {
         System.out.println("Player down!");
+        System.out.printf("Your high score %d!%n", mGrid.getHighScore());
         stopExecution(2000);
         break;
       }
