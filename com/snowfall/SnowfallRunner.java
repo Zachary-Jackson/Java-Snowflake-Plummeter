@@ -2,17 +2,23 @@ package com.snowfall;
 
 import com.snowfall.model.Grid;
 
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SnowfallRunner {
   private Grid mGrid;
+  private BufferedReader mReader;
   
   /**
   * SnowfallRunner's constructor method
   * @param grid A Grid object that allows us to interact with the game's logic
   */
   public SnowfallRunner(Grid grid) {
+    mReader = new BufferedReader(new InputStreamReader(System.in));
     mGrid = grid;
   }
   
@@ -41,6 +47,28 @@ public class SnowfallRunner {
   private String formatRow(String row) {
     return "|" + row + "|";
   }
+
+  /**
+  * Gets the user's desired movements and moves accordingly if applicable
+  */
+  private void movementHandler() {
+    try {
+      String direction = usersDirection();
+      switch(direction) {
+        case "a":
+          mGrid.movePlayerLeft();
+          break;
+        case "d":
+          mGrid.movePlayerRight();
+          break;
+        default:
+          // Don't move
+      }
+    } catch(IOException ioe) {
+      System.out.println("Problem with input");
+      ioe.printStackTrace();
+    }
+  }
   
   /**
   * The main menu runner for SnowfallRunner, allowing the game to be played
@@ -56,6 +84,10 @@ public class SnowfallRunner {
       displayGame(gridInfo, playerInfo);
       
       mGrid.incrementHighScore();
+
+
+      // If applicable, move player
+      movementHandler();
       
       boolean hit = mGrid.playerHit();
       if (hit) {
@@ -64,8 +96,6 @@ public class SnowfallRunner {
         stopExecution(2000);
         break;
       }
-
-      stopExecution(600);
     
       // Clears the screen on non windows
       System.out.print("\033[H\033[2J");
@@ -87,6 +117,12 @@ public class SnowfallRunner {
     {
         Thread.currentThread().interrupt();
     }
+  }
+
+  private String usersDirection() throws IOException {
+    System.out.print("Enter the direction you want to go:  ");
+    String direction = mReader.readLine();
+    return direction;
   }
   
 }

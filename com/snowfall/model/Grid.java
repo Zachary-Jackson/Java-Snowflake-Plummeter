@@ -79,6 +79,22 @@ public class Grid {
   public void incrementHighScore() {
     mHighScore += 1;
   }
+
+  /**
+  * Moves the player one space to the left
+  */
+  public void movePlayerLeft () throws IndexOutOfBoundsException{
+    mPlayer.add(mPlayer.size() - 1, mEmptyChar);
+    mPlayer.remove(0);
+  }
+
+  /**
+  * Moves the player one space to the right
+  */
+  public void movePlayerRight() throws IndexOutOfBoundsException{
+    mPlayer.add(0, mEmptyChar);
+    mPlayer.remove(mPlayer.size() - 1);
+  }
   
   /**
   * Runs the game for one tick, cascading down the rows and deleting
