@@ -2,7 +2,6 @@ package com.snowfall;
 
 import com.snowfall.model.Grid;
 
-import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +20,21 @@ public class SnowfallRunner {
     mReader = new BufferedReader(new InputStreamReader(System.in));
     mGrid = grid;
   }
+
+  /**
+  * Determines if the user was hit. If so, display hit message
+  * @return boolean True is the user was hit
+  */
+  private boolean collisionHandler() {
+    boolean hit = mGrid.playerHit();
+    if (hit) {
+      System.out.println("Player down!");
+      System.out.printf("Your high score %d!%n", mGrid.getHighScore());
+      stopExecution(2000);
+      return true;
+    }
+    return false;
+  }
   
   /**
   * Uses a grid based system to create the objects that the user sees
@@ -29,7 +43,7 @@ public class SnowfallRunner {
   * @param grid A Grid object that constains row and columns data
   */
   private void displayGame(List<List<String>> grid, List<String> player) {
-    // Print onstacles
+    // Print obstacles
     for (int i = 0; i < grid.size(); i++) {
       String row = String.join("", grid.get(i));
       System.out.printf("%s%n", formatRow(row));
@@ -80,23 +94,17 @@ public class SnowfallRunner {
       // Get grid and player locations
       List<List<String>> gridInfo = mGrid.getGridInfo();
       List<String> playerInfo = mGrid.getPlayerInfo();
-  
       displayGame(gridInfo, playerInfo);
-      
-      mGrid.incrementHighScore();
-
 
       // If applicable, move player
       movementHandler();
-      
-      boolean hit = mGrid.playerHit();
-      if (hit) {
-        System.out.println("Player down!");
-        System.out.printf("Your high score %d!%n", mGrid.getHighScore());
-        stopExecution(2000);
+      if (collisionHandler()) {
         break;
-      }
+      };
     
+      // Increase the HighScore with each succesful move
+      mGrid.incrementHighScore();
+
       // Clears the screen on non windows
       System.out.print("\033[H\033[2J");
       
@@ -119,6 +127,10 @@ public class SnowfallRunner {
     }
   }
 
+  /**
+  * Asks the user which direction they want to go
+  * @return A String stating the direction or anything the user inputed
+  */
   private String usersDirection() throws IOException {
     System.out.print("Enter the direction you want to go:  ");
     String direction = mReader.readLine();
