@@ -81,19 +81,36 @@ public class Grid {
   }
 
   /**
-  * Moves the player one space to the left
+  * Moves the player one space to the left if not on the left bounds.
+  * Otherwise the player does not move
+  * @return True if the player moved
   */
-  public void movePlayerLeft () throws IndexOutOfBoundsException{
-    mPlayer.add(mPlayer.size() - 1, mEmptyChar);
+  public boolean movePlayerLeft () {
+    // If player at index 0 moving left would delete player
+    int index = mPlayer.indexOf(mPlayerChar);
+    if (index == 0) {
+      return false;
+    }
+    
+    mPlayer.add(mEmptyChar);
     mPlayer.remove(0);
+    return true;
   }
 
   /**
-  * Moves the player one space to the right
+  * Moves the player one space to the right if not on the left bounds.
+  * Otherwise the player does not move
+  * @return True if the player moved
   */
-  public void movePlayerRight() throws IndexOutOfBoundsException{
+  public boolean movePlayerRight() {
+    // If player at the last index moving right would delete player
+    int index = mPlayer.indexOf(mPlayerChar);
+    if (index == (mColumns - 1)) {
+      return false;
+    }
     mPlayer.add(0, mEmptyChar);
     mPlayer.remove(mPlayer.size() - 1);
+    return true;
   }
   
   /**
@@ -105,7 +122,7 @@ public class Grid {
     // The last row in mGridInfo is the one that hits the player
     List<String> grid = mGridInfo.get(mGridInfo.size() - 1);
     
-    int index = mPlayer.indexOf("X");
+    int index = mPlayer.indexOf(mPlayerChar);
     
     if (grid.get(index) != mEmptyChar) {
       return true;
