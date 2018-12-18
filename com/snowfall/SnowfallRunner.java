@@ -2,6 +2,7 @@ package com.snowfall;
 
 import com.snowfall.model.Grid;
 
+import java.lang.Math;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +12,8 @@ import java.util.List;
 public class SnowfallRunner {
   private Grid mGrid;
   private BufferedReader mReader;
+
+  private int mMaxSnowflakes;
   
   /**
   * SnowfallRunner's constructor method
@@ -19,6 +22,7 @@ public class SnowfallRunner {
   public SnowfallRunner(Grid grid) {
     mReader = new BufferedReader(new InputStreamReader(System.in));
     mGrid = grid;
+    mMaxSnowflakes = 1;
   }
 
   /**
@@ -63,6 +67,15 @@ public class SnowfallRunner {
   }
 
   /**
+  * Determines how many obsticles should run in a gametick and apply it
+  */
+  private void gameTickHandler() {
+    // Get a random number of snowflakes to fall
+    int randomNum = (int) Math.floor(Math.random() * (mMaxSnowflakes + 1));
+    mGrid.runGameTick(randomNum);
+  }
+
+  /**
   * Gets the user's desired movements and moves accordingly if applicable
   */
   private void movementHandler() {
@@ -89,7 +102,7 @@ public class SnowfallRunner {
   */
   public void run() {
     while(true) {
-      mGrid.runGameTick();
+      gameTickHandler();
       
       // Get grid and player locations
       List<List<String>> gridInfo = mGrid.getGridInfo();
@@ -104,6 +117,19 @@ public class SnowfallRunner {
     
       // Increase the HighScore with each succesful move
       mGrid.incrementHighScore();
+
+      // Temporary Diffuculty scalling
+      if (mGrid.getHighScore() > 45) {
+        mMaxSnowflakes = 9;
+      } else if (mGrid.getHighScore() > 35) {
+        mMaxSnowflakes = 7;
+      } else if (mGrid.getHighScore() > 30) {
+        mMaxSnowflakes = 4;
+      } else if (mGrid.getHighScore() > 25) {
+        mMaxSnowflakes = 3;
+      } else if (mGrid.getHighScore() > 10) {
+        mMaxSnowflakes = 2;
+      }
 
       // Clears the screen on non windows
       System.out.print("\033[H\033[2J");

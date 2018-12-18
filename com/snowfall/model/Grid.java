@@ -9,7 +9,7 @@ import java.util.Random;
 public class Grid {
   // Grid information
   private int mColumns;
-  private List<List<String>> mGridInfo = new ArrayList<List<String>>();
+  private List<List<String>> mGrid = new ArrayList<List<String>>();
   private List<String> mPlayer = new ArrayList<String>();
   private int mRows;
   
@@ -32,7 +32,7 @@ public class Grid {
     
     // Creates a grid system based on the given rows and columns
     for(int i = 0; i < mRows; i++) {
-      mGridInfo.add(
+      mGrid.add(
         new ArrayList<String>(Collections.nCopies(mColumns, mEmptyChar))
       );
     }
@@ -53,7 +53,7 @@ public class Grid {
   * @return A list of rows, with the status of each pixel in the column
   */
   public List<List<String>> getGridInfo() {
-    return mGridInfo;
+    return mGrid;
   }
   
   /**
@@ -119,8 +119,8 @@ public class Grid {
   * @return True if the user has been hit, else false
   */
   public boolean playerHit() {
-    // The last row in mGridInfo is the one that hits the player
-    List<String> grid = mGridInfo.get(mGridInfo.size() - 1);
+    // The last row in mGrid is the one that hits the player
+    List<String> grid = mGrid.get(mGrid.size() - 1);
     
     int index = mPlayer.indexOf(mPlayerChar);
     
@@ -133,24 +133,41 @@ public class Grid {
   /**
   * Runs the game for one tick, cascading down the rows and deleting
   * the one closest to the ground
-  * @return A list of rows, with the status of each pixel in the column
   */
   public void runGameTick() {
-    // Initalize an empty ArrayList to replace the first mGridInfo element
+    runGameTick(1);
+  }
+
+  /**
+  * Runs the game for one tick, cascading down the rows and deleting
+  * the one closest to the ground
+
+  * Temporary, does not add all of the number. Just up to it
+  * Some snowflakes can be overwritten
+
+  * @param number The number of snowflake obstacles
+  */
+  public void runGameTick(int number) {
+    // Initalize an empty ArrayList to replace the first mGrid element
     ArrayList<String> newList = new ArrayList<String>(
       Collections.nCopies(mColumns, mEmptyChar)
     );
     
-    // Get random number to fill the grid
-    Random rand = new Random(); 
-    int value = rand.nextInt(mColumns);
-    
-    // Add snowflake to Grid
-    newList.add(value, mSnowflake);
-    newList.remove(value + 1);
-    
-    mGridInfo.add(0, newList);
-    mGridInfo.remove( mGridInfo.size() -1 );
+    // If no snowflakes are added, ignore
+    if (number > 0) {
+      for (int i = 0; i < number; i++) {
+        // Get random number to fill the grid
+        Random rand = new Random(); 
+        int value = rand.nextInt(mColumns);
+        
+        // Add snowflake to Grid
+        newList.add(value, mSnowflake);
+        newList.remove(value + 1);
+      }
+    }
+
+    mGrid.add(0, newList);
+    mGrid.remove( mGrid.size() -1 );
   }
    
   
